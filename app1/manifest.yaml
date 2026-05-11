@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: app1
+
   labels:
     purpose: ingress
     project: amazon-clone
@@ -28,8 +29,9 @@ spec:
 
 apiVersion: v1
 kind: Service
-metdata:
+metadata:
   name: app1
+
   labels:
     purpose: ingress
     project: amazon-clone
