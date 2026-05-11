@@ -7,7 +7,7 @@ metadata:
     project: amazon-clone
     app: app1
 spec:
-  replica: 2
+  replicas: 2
   selector:
     matchLabels:
       purpose: ingress
