@@ -8,7 +8,7 @@ CLUSTER_NAME=amazon-clone
 ACC_ID=""
 
  
-eksctl utils assoociate-iam-oidc-provider \
+eksctl utils associate-iam-oidc-provider \
     --region $REGION_CODE \
     --cluster $CLUSTER_NAME \
     --approve
