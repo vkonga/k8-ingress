@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app1
+  labels:
+    purpose: ingress
+    project: amazon-clone
+    app: app1
+spec:
+  replica: 2
+  selector:
+    matchLabels:
+      purpose: ingress
+      project: amazon-clone
+      app: app1
+  template:
+    metadata:
+      labels:
+        purpose: ingress
+        project: amazon-clone
+        app: app1
+    spec:
+      containers:
+        - name: nginx
+          image: young1997/app1:v1
+
+---
+
+apiVersion: v1
+kind: Service
+metdata:
+  name: app1
+  labels:
+    purpose: ingress
+    project: amazon-clone
+    app: app1
+spec:
+  selector:
+    purpose: ingress
+    project: amazon-clone
+    app: app1
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-wildcard-host
+  annotations:
+    alb-ingress.kubernetes.io/listen-ports: '[{"HTTPS": 443}]'
+    alb.ingress.kubernetes.io/certificates-arn: arn:aws:acm:us-east-1:781195020338:certificate/7d226f88-2e65-4d7d-ba78-3c43fa7af352
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+spec:
+  rules:
+  - host: "app1.bankstatement2xl.com"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: app1
+            port:
+              number: 80
+
